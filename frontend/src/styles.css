@@ -1,0 +1,101 @@
+:root {
+    --fg: #eaeaea;
+    --bg: #0f1115;
+    --muted: #9aa0a6;
+    --pri: #4caf50;
+    --pri-hover: #43a047;
+}
+
+* { box-sizing: border-box }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.container { max-width: 860px; margin: 40px auto; padding: 0 16px }
+header { display: flex; align-items: center; gap: 12px }
+.spacer { flex: 1 }
+
+.btn {
+    background: var(--pri);
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.btn:hover:not(:disabled) {
+    background: var(--pri-hover);
+}
+.btn:disabled { opacity: .6; cursor: not-allowed }
+
+.card {
+    background: #151923;
+    border: 1px solid #1f2430;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.form { display: flex; flex-direction: column; gap: 10px }
+
+input, textarea {
+    background: #0b0d12;
+    color: var(--fg);
+    border: 1px solid #1f2430;
+    border-radius: 8px;
+    padding: 10px;
+}
+textarea { min-height: 90px; resize: vertical }
+
+.tabs { display: flex; gap: 8px; margin-bottom: 12px }
+.tabs button {
+    background: #0b0d12;
+    color: var(--fg);
+    border: 1px solid #1f2430;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tabs button:hover {
+    border-color: var(--pri);
+}
+.tabs .active {
+    background: var(--pri);
+    border-color: var(--pri);
+}
+
+.list h2 { margin-top: 24px }
+.posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+.post {
+    background: #151923;
+    border: 1px solid #1f2430;
+    border-radius: 12px;
+    padding: 14px;
+}
+.post h3 { margin: .2rem 0 }
+.post small { color: var(--muted) }
+
+form input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 14px;
+}
+form input:focus {
+    outline: none;
+    border-color: var(--pri);
+}
