@@ -16,7 +16,7 @@ export default function App() {             // <-- default export
         setLoading(true);
         setError('');
         try {
-            const res = await api.get('/posts');
+            const res = await api.get('/api/posts');
             setPosts(Array.isArray(res.data) ? res.data : []);
         } catch (e) {
             console.error('Load posts failed:', e);

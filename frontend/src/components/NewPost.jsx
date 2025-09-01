@@ -8,7 +8,7 @@ export default function NewPost({ onCreated }) {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await api.post('/posts', { title, content });
+            const { data } = await api.post('/api/posts', { title, content });
             setTitle(''); setContent('');
             onCreated?.(data);
         } catch (e) {
