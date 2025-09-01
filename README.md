@@ -1,4 +1,4 @@
-# EnergeX-AI Hiring Test – Full-Stack Developer Technical Assessment 
+# EnergeX-AI Assessment 
 
 This project implements the **EnergeX Full-Stack Assessment**:  
 A complete microservice application built with **Lumen (PHP)**, **Node.js (TypeScript)**, **Redis**, **MySQL**, and a **React frontend**. The stack is containerized with **Docker** and deployed using **Coolify**.
