@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+permissions:
+  contents: read
+
+jobs:
+  php-tests:
+    name: Lumen (PHPUnit)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lumen-api
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, pdo_mysql, json
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: lumen-api/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('lumen-api/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install deps
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      # Use sqlite for tests (fast, no DB container needed)
+      - name: Prepare .env (sqlite)
+        run: |
+          cp -n .env.example .env || true
+          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env
+          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=:memory:/' .env
+          sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env
+          sed -i 's/^APP_DEBUG=.*/APP_DEBUG=true/' .env
+          sed -i 's/^JWT_SECRET=.*/JWT_SECRET=testsecret123/' .env
+
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit
+
+  node-tests:
+    name: Node GraphQL (Jest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: node-graphql
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: node-graphql/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run tests
+        env:
+          NODE_ENV: test
+        run: npm test -- --ci
+
+  frontend-build:
+    name: Frontend builds
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (production)
+        env:
+          VITE_API_BASE: /api   # build should succeed with prod base
+        run: npm run build

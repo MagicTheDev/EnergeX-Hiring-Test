@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push web
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          build-args: |
+            VITE_API_BASE=/api
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-web:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-web:latest
+
+      - name: Build & Push node
+        uses: docker/build-push-action@v6
+        with:
+          context: ./node-graphql
+          file: ./node-graphql/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-node:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-node:latest
+
+      - name: Build & Push lumen
+        uses: docker/build-push-action@v6
+        with:
+          context: ./lumen-api
+          file: ./lumen-api/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-lumen:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/energex-lumen:latest
+
