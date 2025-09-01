@@ -29,7 +29,7 @@ class AuthTest extends TestCase
         ]);
 
         $this->json('POST', '/api/login',
-            ['email'=>'bob@example.com','password'=>'secret123'],
+            ['email'=>'bar@bar.bar','password'=>'secret123'],
             ['Accept'=>'application/json','Content-Type'=>'application/json']
         )
             ->seeStatusCode(200)
