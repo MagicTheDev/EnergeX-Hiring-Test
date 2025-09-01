@@ -107,8 +107,6 @@ services:
     depends_on:
       - lumen
       - node
-    ports:
-      - "80:80"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/"]
       interval: 15s
