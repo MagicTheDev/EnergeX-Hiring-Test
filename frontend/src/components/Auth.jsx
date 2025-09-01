@@ -27,14 +27,14 @@ export default function Auth({ onAuth }) {
 
         try {
             if (isRegister) {
-                const { data } = await api.post('/api/register', {
+                const { data } = await api.post('/register', {
                     name: form.name,
                     email: form.email,
                     password: form.password,
                 });
                 onAuth?.(data.token);
             } else {
-                const { data } = await api.post('/api/login', {
+                const { data } = await api.post('/login', {
                     email: form.email,
                     password: form.password,
                 });
