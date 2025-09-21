@@ -1,15 +1,11 @@
-# EnergeX-AI Assessment 
 
-This project implements the **EnergeX Full-Stack Assessment**:  
 A complete microservice application built with **Lumen (PHP)**, **Node.js (TypeScript)**, **Redis**, **MySQL**, and a **React frontend**. The stack is containerized with **Docker** and deployed using **Coolify**.
 
 ---
 
 ## 🚀 Live Demo
 
-- **Frontend (React UI):** [https://energex.magicthe.dev](https://energex.magicthe.dev)  
-- **Swagger API Docs (OpenAPI):** [https://energex.magicthe.dev/docs](https://energex.magicthe.dev/docs)  
-- **GraphQL Playground:** [https://energex.magicthe.dev/graphql](https://energex.magicthe.dev/graphql)
+- No Longer Hosted
 
 ---
 
@@ -59,7 +55,3 @@ A complete microservice application built with **Lumen (PHP)**, **Node.js (TypeS
 - Node 20+ (for local frontend dev)
 - PHP 8.2+ (if running Lumen outside Docker)
 
-### Clone the repo
-```bash
-git clone https://github.com/your-org/energex-assessment.git
-cd energex-assessment
